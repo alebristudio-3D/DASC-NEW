@@ -1,0 +1,164 @@
+/* Light theme overrides for the DASC landing snippet.
+   Load this stylesheet after the original styles or paste it
+   at the end of the existing <style> block. */
+
+.dasc-landing {
+  --bg: #f6f9ff;
+  --bg-2: #edf3ff;
+  --card: rgba(255, 255, 255, 0.88);
+  --card-2: rgba(255, 255, 255, 0.72);
+  --line: rgba(0, 51, 153, 0.12);
+  --text: #0f172a;
+  --muted: rgba(15, 23, 42, 0.78);
+  --soft: rgba(15, 23, 42, 0.62);
+  --primary: #003399;
+  --cyan: #61c7f4;
+  --cyan-soft: rgba(97, 199, 244, 0.16);
+  --shadow: 0 20px 56px rgba(0, 51, 153, 0.10);
+  background:
+    radial-gradient(circle at 10% 10%, rgba(0, 51, 153, 0.08), transparent 28%),
+    radial-gradient(circle at 90% 18%, rgba(97, 199, 244, 0.16), transparent 20%),
+    radial-gradient(circle at 35% 100%, rgba(0, 51, 153, 0.06), transparent 22%),
+    linear-gradient(180deg, #fbfdff 0%, #eef4ff 100%);
+}
+
+.dasc-landing .dasc-glass,
+.dasc-landing .dasc-card,
+.dasc-landing .dasc-mode,
+.dasc-landing .dasc-trust-item,
+.dasc-landing .dasc-form-card,
+.dasc-landing .dasc-process,
+.dasc-landing .dasc-quote,
+.dasc-landing .dasc-faq details,
+.dasc-landing .dasc-video,
+.dasc-landing .dasc-gallery div,
+.dasc-landing .dasc-intent-wrap,
+.dasc-landing .dasc-intent-panel,
+.dasc-landing .dasc-ui-panel,
+.dasc-landing .dasc-process-item,
+.dasc-landing .dasc-step,
+.dasc-landing .dasc-profile-box,
+.dasc-landing .dasc-field input,
+.dasc-landing .dasc-field select,
+.dasc-landing .dasc-field textarea,
+.dasc-landing .dasc-btn-secondary,
+.dasc-landing .dasc-link-btn,
+.dasc-landing .dasc-chip,
+.dasc-landing .dasc-badge,
+.dasc-landing .dasc-tag,
+.dasc-landing .dasc-bullets span,
+.dasc-landing .dasc-pills span,
+.dasc-landing .dasc-tab {
+  background: rgba(255, 255, 255, 0.82);
+  border-color: rgba(0, 51, 153, 0.12);
+  color: var(--text);
+  box-shadow: 0 16px 40px rgba(24, 39, 75, 0.06);
+}
+
+.dasc-landing .dasc-topbar {
+  border-bottom: 1px solid rgba(0, 51, 153, 0.08);
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.dasc-landing .dasc-kicker,
+.dasc-landing .dasc-trust-icon,
+.dasc-landing .dasc-mode-icon,
+.dasc-landing .dasc-brand small,
+.dasc-landing .dasc-chip,
+.dasc-landing .dasc-badge,
+.dasc-landing .dasc-tag {
+  color: #003399;
+}
+
+.dasc-landing .dasc-brand strong,
+.dasc-landing .dasc-ui-heading,
+.dasc-landing .dasc-quote-role,
+.dasc-landing .dasc-counter-label,
+.dasc-landing .dasc-field label {
+  color: rgba(15, 23, 42, 0.62);
+}
+
+.dasc-landing .dasc-btn-primary,
+.dasc-landing .dasc-tab:hover,
+.dasc-landing .dasc-tab.active,
+.dasc-landing .dasc-step-num,
+.dasc-landing .dasc-process-item strong,
+.dasc-landing .dasc-avatar,
+.dasc-landing .dasc-wa-float {
+  background: linear-gradient(90deg, #003399, #2d7ff9);
+  color: #ffffff;
+  box-shadow: 0 14px 34px rgba(0, 51, 153, 0.22);
+}
+
+.dasc-landing .dasc-btn-secondary:hover,
+.dasc-landing .dasc-link-btn:hover,
+.dasc-landing .dasc-mode:hover,
+.dasc-landing .dasc-card:hover {
+  border-color: rgba(0, 51, 153, 0.24);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 18px 42px rgba(0, 51, 153, 0.12);
+}
+
+.dasc-landing .dasc-card p,
+.dasc-landing .dasc-mode p,
+.dasc-landing .dasc-quote p,
+.dasc-landing .dasc-faq p,
+.dasc-landing .dasc-head-row p,
+.dasc-landing .dasc-intent-panel p,
+.dasc-landing .dasc-subtitle,
+.dasc-landing .dasc-final p {
+  color: var(--muted);
+}
+
+.dasc-landing .dasc-hero-card::before {
+  background:
+    radial-gradient(circle at 80% 10%, rgba(97, 199, 244, 0.18), transparent 28%),
+    radial-gradient(circle at 20% 100%, rgba(0, 51, 153, 0.14), transparent 36%);
+}
+
+.dasc-landing .dasc-ui-panel[style] {
+  background: linear-gradient(180deg, rgba(0, 51, 153, 0.08), rgba(97, 199, 244, 0.12)) !important;
+}
+
+.dasc-landing .dasc-card:nth-child(1) .dasc-card-visual {
+  background: linear-gradient(135deg, rgba(0, 51, 153, 0.10), rgba(97, 199, 244, 0.14));
+}
+
+.dasc-landing .dasc-card:nth-child(2) .dasc-card-visual {
+  background: linear-gradient(135deg, rgba(0, 51, 153, 0.08), rgba(97, 199, 244, 0.18));
+}
+
+.dasc-landing .dasc-card:nth-child(3) .dasc-card-visual {
+  background: linear-gradient(135deg, rgba(0, 51, 153, 0.12), rgba(45, 127, 249, 0.12));
+}
+
+.dasc-landing .dasc-card:nth-child(4) .dasc-card-visual {
+  background: linear-gradient(135deg, rgba(97, 199, 244, 0.16), rgba(0, 51, 153, 0.14));
+}
+
+.dasc-landing .dasc-card:nth-child(5) .dasc-card-visual {
+  background: linear-gradient(135deg, rgba(0, 51, 153, 0.16), rgba(97, 199, 244, 0.12));
+}
+
+.dasc-landing .dasc-card:nth-child(6) .dasc-card-visual {
+  background: linear-gradient(135deg, rgba(45, 127, 249, 0.12), rgba(97, 199, 244, 0.16));
+}
+
+.dasc-landing .dasc-video-inner,
+.dasc-landing .dasc-final {
+  background: linear-gradient(135deg, rgba(0, 51, 153, 0.10), rgba(255, 255, 255, 0.96), rgba(97, 199, 244, 0.14));
+  border-color: rgba(0, 51, 153, 0.14);
+}
+
+.dasc-landing .dasc-final::before {
+  background: radial-gradient(circle, rgba(97, 199, 244, 0.18), transparent 66%);
+}
+
+.dasc-landing .dasc-play {
+  background: rgba(0, 51, 153, 0.10);
+  color: #003399;
+}
+
+.dasc-landing .dasc-faq summary::after {
+  color: #003399;
+}
