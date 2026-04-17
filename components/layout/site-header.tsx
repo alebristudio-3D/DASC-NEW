@@ -11,7 +11,7 @@ export function SiteHeader() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/75 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/70 backdrop-blur-2xl">
       <Container className="relative">
         <div className="flex min-h-20 items-center justify-between gap-4">
           <Link
@@ -20,7 +20,7 @@ export function SiteHeader() {
             href="#top"
             onClick={() => setIsOpen(false)}
           >
-            <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-cyan-300 text-lg font-bold text-slate-950 shadow-glow">
+            <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,rgba(34,211,238,1),rgba(139,92,246,0.9))] text-lg font-bold text-slate-950 shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_18px_40px_rgba(34,211,238,0.18)]">
               D
             </span>
             <span className="flex flex-col">
@@ -40,7 +40,7 @@ export function SiteHeader() {
             {navItems.map((item) => (
               <Link
                 key={item.href}
-                className="text-sm font-medium text-slate-300 transition hover:text-white"
+                className="text-sm font-medium text-slate-300 transition duration-300 hover:text-white"
                 href={item.href}
               >
                 {item.label}
@@ -50,7 +50,7 @@ export function SiteHeader() {
 
           <div className="hidden items-center gap-3 lg:flex">
             <ButtonLink href="#orientacion" size="lg">
-              Solicitar orientación
+              Habla con un asesor
             </ButtonLink>
           </div>
 
@@ -58,7 +58,7 @@ export function SiteHeader() {
             aria-controls="mobile-nav"
             aria-expanded={isOpen}
             aria-label={isOpen ? "Cerrar navegación" : "Abrir navegación"}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition hover:bg-white/10 lg:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition duration-300 hover:border-cyan-300/35 hover:bg-white/10 lg:hidden"
             onClick={() => setIsOpen((value) => !value)}
             type="button"
           >
@@ -113,7 +113,7 @@ export function SiteHeader() {
                 href="#orientacion"
                 onClick={() => setIsOpen(false)}
               >
-                Solicitar orientación
+                Habla con un asesor
               </ButtonLink>
             </nav>
           </div>
@@ -122,4 +122,3 @@ export function SiteHeader() {
     </header>
   );
 }
-
