@@ -13,7 +13,7 @@ export function MobileFloatingActions() {
         </a>
         <a
           className="inline-flex items-center justify-center rounded-full border border-cyan-300/30 bg-white/[0.08] px-4 py-3 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:border-cyan-300/45 hover:bg-white/[0.12] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
-          href="#orientacion"
+          href="#contacto"
         >
           Habla con un asesor
         </a>

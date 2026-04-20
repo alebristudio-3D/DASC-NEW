@@ -49,7 +49,7 @@ export function SiteHeader() {
           </nav>
 
           <div className="hidden items-center gap-3 lg:flex">
-            <ButtonLink href="#orientacion" size="lg">
+            <ButtonLink href="#contacto" size="lg">
               Habla con un asesor
             </ButtonLink>
           </div>
@@ -110,7 +110,7 @@ export function SiteHeader() {
               ))}
               <ButtonLink
                 className="mt-2 w-full"
-                href="#orientacion"
+                href="#contacto"
                 onClick={() => setIsOpen(false)}
               >
                 Habla con un asesor

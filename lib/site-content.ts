@@ -3,11 +3,12 @@ export type NavItem = {
   label: string;
 };
 
-export type Pillar = {
+export type OfferCard = {
   id: string;
+  tag: string;
   title: string;
   description: string;
-  support: string;
+  bullets: string[];
 };
 
 export type Program = {
@@ -18,9 +19,18 @@ export type Program = {
   focus: string[];
 };
 
-export type ExperiencePoint = {
+export type ValuePoint = {
+  id: string;
   title: string;
   description: string;
+  support: string;
+};
+
+export type Testimonial = {
+  id: string;
+  quote: string;
+  name: string;
+  detail: string;
 };
 
 export type ProcessStep = {
@@ -29,133 +39,138 @@ export type ProcessStep = {
   description: string;
 };
 
-export type Faq = {
-  question: string;
-  answer: string;
-};
-
 export const navItems: NavItem[] = [
-  { href: "#oferta", label: "Oferta académica" },
-  { href: "#modelo", label: "Modelo DASC" },
-  { href: "#proceso", label: "Proceso" },
-  { href: "#orientacion", label: "Orientación" },
+  { href: "#oferta", label: "Oferta" },
+  { href: "#hyflex", label: "HyFlex" },
+  { href: "#programas", label: "Programas" },
+  { href: "#admision", label: "Admisión" },
+  { href: "#contacto", label: "Contacto" },
 ];
 
-export const metrics = [
-  {
-    value: "6",
-    label: "programas alineados con tecnología, diseño, operación y negocio.",
-  },
-  {
-    value: "3",
-    label: "niveles de decisión para el aspirante: afinidad, contexto y siguiente paso.",
-  },
-  {
-    value: "1",
-    label: "ruta clara para convertir interés en conversación con admisiones.",
-  },
+export const trustStrip = [
+  "Modelo HyFlex con continuidad entre campus y digital.",
+  "Acompañamiento de asesores desde el primer contacto.",
+  "Programas pensados para el entorno profesional actual.",
+  "Experiencia clara para aspirantes y familias.",
 ];
 
-export const pillars: Pillar[] = [
-  {
-    id: "claridad",
-    title: "Claridad para decidir",
-    description:
-      "La home organiza la información como un embudo útil para aspirantes: qué ofrece DASC, por qué importa y cómo seguir.",
-    support:
-      "La experiencia evita mensajes dispersos y prioriza lectura rápida con profundidad suficiente para tomar acción.",
-  },
-  {
-    id: "tono",
-    title: "Tono institucional serio",
-    description:
-      "La estética combina una base oscura, tipografía contundente y microdetalles tecnológicos para transmitir profesionalismo.",
-    support:
-      "El resultado busca verse actual sin caer en recursos promocionales ruidosos o poco confiables.",
-  },
-  {
-    id: "conversion",
-    title: "Conversión sin fricción",
-    description:
-      "Cada bloque empuja a un siguiente paso concreto: revisar oferta, entender el proceso y solicitar orientación.",
-    support:
-      "Las llamadas a la acción se repiten con consistencia y sin depender de sliders o interacciones pesadas.",
-  },
-];
-
-export const programs: Program[] = [
+export const offerCards: OfferCard[] = [
   {
     id: "software",
-    tag: "Perfil: Arquitectura digital",
-    title: "Ingeniería en Software",
+    tag: "Tecnología aplicada",
+    title: "Ingeniería y desarrollo",
     description:
-      "Formación orientada a construir productos digitales, resolver problemas complejos y desarrollar soluciones escalables.",
-    focus: ["Programación", "Producto", "Lógica aplicada"],
+      "Rutas orientadas a construir productos, plataformas y soluciones digitales con visión práctica.",
+    bullets: ["Programación", "Arquitectura", "Producto digital"],
   },
   {
-    id: "sistemas",
-    tag: "Perfil: Gestión tecnológica",
-    title: "Sistemas Computacionales",
+    id: "systems",
+    tag: "Infraestructura digital",
+    title: "Sistemas y operación",
     description:
-      "Ruta para quienes entienden la tecnología como infraestructura clave para operar, asegurar y evolucionar organizaciones.",
-    focus: ["Infraestructura", "Implementación", "Soporte estratégico"],
-  },
-  {
-    id: "industrial",
-    tag: "Perfil: Optimización",
-    title: "Ingeniería Industrial y Sistemas",
-    description:
-      "Enfoque para mejorar procesos, tiempos y recursos con pensamiento analítico y criterio operativo.",
-    focus: ["Procesos", "Eficiencia", "Análisis"],
+      "Formación para quienes quieren administrar, implementar y hacer crecer entornos tecnológicos.",
+    bullets: ["Infraestructura", "Operación", "Implementación"],
   },
   {
     id: "design",
-    tag: "Perfil: Experiencia visual",
+    tag: "Experiencia y marca",
+    title: "Diseño y creatividad",
+    description:
+      "Programas para crear experiencias, interfaces y propuestas visuales con criterio estratégico.",
+    bullets: ["UI", "Experiencia", "Narrativa visual"],
+  },
+  {
+    id: "business",
+    tag: "Gestión y crecimiento",
+    title: "Negocio digital",
+    description:
+      "Opciones para liderar proyectos, activar estrategias y conectar operación con resultados.",
+    bullets: ["Marketing", "Administración", "Decisión de negocio"],
+  },
+];
+
+export const hyflexPoints = [
+  "Continúa tu avance combinando experiencias presenciales y digitales sin perder ritmo.",
+  "Recibe una estructura más flexible para estudiantes que necesitan compatibilidad con su contexto.",
+  "Mantén claridad sobre horarios, acompañamiento y seguimiento desde admisiones.",
+];
+
+export const whyDascPoints: ValuePoint[] = [
+  {
+    id: "clarity",
+    title: "Claridad para decidir",
+    description:
+      "La home organiza la información para que el aspirante entienda rápido qué puede estudiar y cómo seguir.",
+    support:
+      "Se evita la saturación y se priorizan mensajes útiles antes de pedir una acción.",
+  },
+  {
+    id: "model",
+    title: "Modelo actual y creíble",
+    description:
+      "DASC se presenta con una estética contemporánea sin perder el peso institucional que exige una decisión académica.",
+    support:
+      "La experiencia comunica modernidad con una base visual sobria y confiable.",
+  },
+  {
+    id: "support",
+    title: "Acompañamiento real",
+    description:
+      "La conversión principal no es un formulario frío: es una conversación útil con asesoría desde el inicio.",
+    support:
+      "Esto acerca la experiencia a una edtech moderna sin romper credibilidad.",
+  },
+];
+
+export const featuredPrograms: Program[] = [
+  {
+    id: "software",
+    tag: "Programa destacado",
+    title: "Ingeniería en Software",
+    description:
+      "Ideal para perfiles que quieren desarrollar soluciones, productos y plataformas digitales de alto impacto.",
+    focus: ["Código", "Producto", "Resolución de problemas"],
+  },
+  {
+    id: "design",
+    tag: "Programa destacado",
     title: "Diseño Interactivo",
     description:
-      "Programa pensado para conectar creatividad, experiencia de usuario y ejecución visual dentro de entornos digitales.",
-    focus: ["UI", "Creatividad", "Experiencias digitales"],
+      "Para quienes buscan combinar creatividad, experiencia de usuario y ejecución visual dentro del entorno digital.",
+    focus: ["UI", "Experiencias", "Creatividad aplicada"],
   },
   {
     id: "marketing",
-    tag: "Perfil: Crecimiento de marca",
+    tag: "Programa destacado",
     title: "Mercadotecnia Digital",
     description:
-      "Preparación para diseñar estrategias, activar campañas y generar valor a partir de audiencias, contenido y datos.",
-    focus: ["Contenido", "Estrategia", "Crecimiento"],
-  },
-  {
-    id: "admin",
-    tag: "Perfil: Liderazgo organizacional",
-    title: "Administración",
-    description:
-      "Ruta para quienes buscan combinar visión de negocio, toma de decisiones y coordinación efectiva de equipos.",
-    focus: ["Gestión", "Negocio", "Liderazgo"],
+      "Ruta orientada a estrategia, contenido, crecimiento y conexión entre marca, audiencias y resultados.",
+    focus: ["Contenido", "Estrategia", "Growth"],
   },
 ];
 
-export const experiencePoints: ExperiencePoint[] = [
+export const testimonials: Testimonial[] = [
   {
-    title: "Arquitectura pensada para aspirantes",
-    description:
-      "La navegación y el orden de los bloques responden a preguntas reales de decisión: qué estudiar, cómo avanzar y a quién contactar.",
+    id: "t1",
+    quote:
+      "Lo que más me ayudó fue entender rápido qué programa hacía sentido conmigo y poder hablar con alguien sin perder tiempo.",
+    name: "Valeria R.",
+    detail: "Aspirante · Interés en tecnología y negocio",
   },
   {
-    title: "Narrativa de valor institucional",
-    description:
-      "La página presenta a DASC como una institución que forma perfiles para la economía digital con un lenguaje más confiable y directo.",
+    id: "t2",
+    quote:
+      "La experiencia se siente clara y actual. No parece una universidad hablando en difícil, sino una institución que sí acompaña.",
+    name: "Diego M.",
+    detail: "Aspirante · Comparando opciones de diseño",
   },
   {
-    title: "Sistema visual escalable",
-    description:
-      "Los componentes, tokens y patrones quedan listos para crecer hacia páginas internas sin rehacer la base.",
+    id: "t3",
+    quote:
+      "Me dio confianza ver una propuesta moderna pero seria. Eso hizo más fácil pensar en DASC como una opción real.",
+    name: "Andrea C.",
+    detail: "Madre de familia · Primera consulta",
   },
-];
-
-export const trustSignals = [
-  "Diseño sobrio con contraste alto y lectura cómoda.",
-  "Bloques reutilizables para oferta, proceso y captación.",
-  "Jerarquía visual optimizada para desktop y mobile.",
 ];
 
 export const processSteps: ProcessStep[] = [
@@ -163,42 +178,18 @@ export const processSteps: ProcessStep[] = [
     step: "01",
     title: "Explora la oferta",
     description:
-      "Revisa los programas clave y detecta qué rutas hacen sentido con tus intereses y fortalezas.",
+      "Revisa las áreas académicas clave y detecta cuál se acerca más a tus intereses y metas.",
   },
   {
     step: "02",
-    title: "Contrasta tu perfil",
+    title: "Resuelve tus dudas",
     description:
-      "Entiende cómo DASC traduce afinidad, estilo de aprendizaje y contexto en una orientación más clara.",
+      "Conversa con un asesor para entender modalidad, acompañamiento, proceso y siguiente paso.",
   },
   {
     step: "03",
-    title: "Solicita orientación",
+    title: "Activa tu admisión",
     description:
-      "Deja tus datos para convertir la visita en una conversación con seguimiento y próximos pasos definidos.",
+      "Recibe orientación para convertir tu interés en un proceso más claro y bien acompañado.",
   },
 ];
-
-export const faqs: Faq[] = [
-  {
-    question: "¿A quién está dirigida esta experiencia?",
-    answer:
-      "A aspirantes que buscan una primera lectura clara sobre programas relacionados con tecnología, diseño, operación y negocio dentro de DASC.",
-  },
-  {
-    question: "¿La orientación sustituye el proceso de admisión?",
-    answer:
-      "No. Este primer contacto ayuda a ordenar opciones y preparar la conversación comercial o académica posterior.",
-  },
-  {
-    question: "¿Necesito saber ya qué carrera quiero estudiar?",
-    answer:
-      "No necesariamente. La estructura del sitio está pensada para reducir incertidumbre y ayudarte a comparar rutas antes de decidir.",
-  },
-  {
-    question: "¿Esta versión ya está lista para crecer?",
-    answer:
-      "Sí. La base queda preparada para agregar páginas internas, fichas de programa y flujos de captación en siguientes fases.",
-  },
-];
-

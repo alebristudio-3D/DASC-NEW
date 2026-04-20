@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { navItems } from "@/lib/site-content";
 
-const footerLinks = [...navItems, { href: "#faq" as const, label: "Preguntas frecuentes" }];
+const footerLinks = [...navItems];
 
 export function SiteFooter() {
   return (
@@ -11,13 +11,12 @@ export function SiteFooter() {
         <div>
           <p className="eyebrow">DASC</p>
           <h2 className="font-display text-2xl text-white md:text-3xl">
-            Una base sólida para presentar oferta, proceso y contacto desde una
-            sola experiencia.
+            Una home más clara para presentar oferta, modalidad y proceso sin
+            extenderse de más.
           </h2>
           <p className="mt-4 max-w-xl text-sm leading-7 text-slate-400">
-            Esta primera fase prioriza claridad institucional, navegación
-            orientada a aspirantes y una estructura preparada para crecer con
-            páginas internas.
+            Esta versión organiza mejor la decisión del aspirante y deja la
+            base lista para conectar con páginas internas en siguientes etapas.
           </p>
         </div>
 
@@ -45,8 +44,8 @@ export function SiteFooter() {
               Mensaje institucional
             </h3>
             <p className="mt-4 text-sm leading-7 text-slate-300">
-              DASC presenta aquí una narrativa enfocada en orientar, generar
-              confianza y abrir conversación con futuros aspirantes.
+              DASC se presenta con una narrativa más actual, ordenada y
+              orientada a conversión, sin perder seriedad institucional.
             </p>
           </div>
         </div>

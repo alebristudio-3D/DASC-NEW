@@ -1,24 +1,25 @@
-import { ExperienceSection } from "@/components/home/experience-section";
-import { FaqSection } from "@/components/home/faq-section";
+import { AdmissionsProcessSection } from "@/components/home/admissions-process-section";
+import { FeaturedProgramsSection } from "@/components/home/featured-programs-section";
+import { FinalCtaSection } from "@/components/home/final-cta-section";
 import { HeroSection } from "@/components/home/hero-section";
-import { LeadSection } from "@/components/home/lead-section";
-import { MetricsStrip } from "@/components/home/metrics-strip";
-import { ProcessSection } from "@/components/home/process-section";
-import { ProgramsSection } from "@/components/home/programs-section";
-import { ValuePillarsSection } from "@/components/home/value-pillars-section";
+import { HyflexSection } from "@/components/home/hyflex-section";
+import { OfferSection } from "@/components/home/offer-section";
+import { TestimonialsSection } from "@/components/home/testimonials-section";
+import { TrustStrip } from "@/components/home/trust-strip";
+import { WhyDascSection } from "@/components/home/why-dasc-section";
 
 export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <MetricsStrip />
-      <ValuePillarsSection />
-      <ProgramsSection />
-      <ExperienceSection />
-      <ProcessSection />
-      <LeadSection />
-      <FaqSection />
+      <TrustStrip />
+      <OfferSection />
+      <HyflexSection />
+      <WhyDascSection />
+      <FeaturedProgramsSection />
+      <TestimonialsSection />
+      <AdmissionsProcessSection />
+      <FinalCtaSection />
     </>
   );
 }
-
