@@ -2,8 +2,11 @@ const body = document.body;
 const quizStage = document.querySelector("[data-quiz-stage]");
 const revealItems = document.querySelectorAll(".reveal");
 const careerCards = document.querySelectorAll("[data-career-card]");
+const splashScreen = document.querySelector("[data-splash-screen]");
 
 const WHATSAPP_NUMBER = "5212223606438";
+const LEAD_WEBHOOK_URL = "";
+const PRIVACY_NOTICE_URL = "https://dasc.edu.mx/aviso%20de%20privacidad/";
 const scaleLabels = [
   { value: 1, label: "Nada" },
   { value: 2, label: "Poco" },
@@ -496,7 +499,7 @@ const leadCache = (() => {
 })();
 
 const state = {
-  screen: "intro",
+  screen: "step",
   currentStep: 0,
   responses: {},
   results: null,
@@ -553,11 +556,11 @@ const revealVisibleItems = () => {
 };
 
 const scrollToQuiz = () => {
-  document.getElementById("quiz")?.scrollIntoView({
+  window.scrollTo({
+    top: 0,
     behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
       ? "auto"
       : "smooth",
-    block: "start",
   });
 };
 
@@ -599,6 +602,14 @@ const getWhatsAppLink = (message) => {
     : `https://wa.me/?text=${encoded}`;
 };
 
+const hideSplashScreen = () => {
+  if (!splashScreen) {
+    return;
+  }
+
+  splashScreen.classList.add("is-hidden");
+};
+
 const isStepComplete = (step) =>
   step.items.every((item) => state.responses[item.id] !== undefined);
 
@@ -612,12 +623,63 @@ const applyWeightedMap = (target, source, factor) => {
   });
 };
 
+const getLeadPayload = (resultsOverride = state.results) => {
+  const topCareer = resultsOverride?.ranking?.[0];
+  const modality = resultsOverride ? modalities[resultsOverride.modalityKey] : null;
+
+  return {
+    submittedAt: new Date().toISOString(),
+    lead: {
+      name: state.lead.name.trim(),
+      whatsapp: state.lead.whatsapp.trim(),
+      email: state.lead.email.trim(),
+    },
+    result: resultsOverride
+      ? {
+          career: topCareer?.degree || "",
+          profile: topCareer?.profile || "",
+          modality: modality?.name || "",
+          riskLevel: resultsOverride.riskLevel,
+          learningProfile: learningProfiles[resultsOverride.learningKey]?.name || "",
+          motivator: resultsOverride.motivatorKey,
+          signals: resultsOverride.topSignals || [],
+          barriers: resultsOverride.barrierFlags || [],
+          alternatives: resultsOverride.ranking.slice(1, 3).map((item) => item.degree),
+        }
+      : null,
+  };
+};
+
+const sendLeadToWebhook = async (payload) => {
+  if (!LEAD_WEBHOOK_URL) {
+    return { skipped: true };
+  }
+
+  const response = await fetch(LEAD_WEBHOOK_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    throw new Error("No se pudo enviar el lead al webhook.");
+  }
+
+  return { skipped: false };
+};
+
 const getResults = () => {
   const careerScores = Object.keys(careers).reduce(
     (acc, key) => ({ ...acc, [key]: 0 }),
     {}
   );
   const modalityScores = Object.keys(modalities).reduce(
+    (acc, key) => ({ ...acc, [key]: 0 }),
+    {}
+  );
+  const modalityContextScores = Object.keys(modalities).reduce(
     (acc, key) => ({ ...acc, [key]: 0 }),
     {}
   );
@@ -670,11 +732,84 @@ const getResults = () => {
         if (!selectedOption) return;
         applyWeightedMap(careerScores, selectedOption.careers, 1);
         applyWeightedMap(modalityScores, selectedOption.modality, 1);
+        applyWeightedMap(modalityContextScores, selectedOption.modality, 1);
         applyWeightedMap(learningScores, selectedOption.learning, 1);
         contextRisk += selectedOption.risk || 0;
       }
     });
   });
+
+  const worksNow = state.responses.ctx_work;
+  const studyHours = state.responses.ctx_hours;
+  const studySchedule = state.responses.ctx_schedule;
+  const keepWorking = state.responses.ctx_keep_work;
+  const selfPaced = Number(state.responses.ped_pace || 0);
+  const structured = Number(state.responses.ped_structure || 0);
+  const onlineComfort = Number(state.responses.ped_online || 0);
+  const practical = Number(state.responses.ped_practical || 0);
+  const auditoryLearning =
+    Number(state.responses.learn_auditory_explain || 0) +
+    Number(state.responses.learn_auditory_discuss || 0);
+  const visualLearning =
+    Number(state.responses.learn_visual_examples || 0) +
+    Number(state.responses.learn_visual_create || 0);
+
+  if (
+    worksNow === "no" &&
+    (studyHours === "4to6" || studyHours === "6plus") &&
+    studySchedule === "weekdays" &&
+    keepWorking === "no"
+  ) {
+    modalityScores.presencial += 6;
+    modalityContextScores.presencial += 4;
+  }
+
+  if (structured >= 4) {
+    modalityScores.presencial += 3;
+  }
+
+  if (auditoryLearning >= 8) {
+    modalityScores.presencial += 2;
+  }
+
+  if (selfPaced >= 4) {
+    modalityScores.flexible += 3;
+  }
+
+  if (onlineComfort >= 4) {
+    modalityScores.flexible += 3;
+  }
+
+  if (visualLearning >= 8) {
+    modalityScores.flexible += 1;
+  }
+
+  if (
+    studySchedule === "flex" ||
+    (selfPaced >= 4 && onlineComfort >= 4) ||
+    (worksNow === "sometimes" && keepWorking !== "no")
+  ) {
+    modalityScores.flexible += 3;
+    modalityContextScores.flexible += 2;
+  }
+
+  if (
+    worksNow === "yes" ||
+    studyHours === "lt2" ||
+    keepWorking === "yes"
+  ) {
+    modalityScores.hyflex += 3;
+    modalityContextScores.hyflex += 3;
+  }
+
+  if (practical >= 4 && worksNow !== "no") {
+    modalityScores.hyflex += 1;
+  }
+
+  if (studySchedule === "saturday") {
+    modalityScores.hyflex += 2;
+    modalityContextScores.hyflex += 2;
+  }
 
   const ranking = Object.entries(careerScores)
     .map(([careerKey, score]) => ({
@@ -684,7 +819,20 @@ const getResults = () => {
     }))
     .sort((a, b) => b.score - a.score);
 
-  const modalityKey = Object.entries(modalityScores).sort(([, a], [, b]) => b - a)[0][0];
+  const modalityKey = Object.entries(modalityScores)
+    .sort(([keyA, scoreA], [keyB, scoreB]) => {
+      if (scoreB !== scoreA) {
+        return scoreB - scoreA;
+      }
+
+      const contextDelta =
+        (modalityContextScores[keyB] || 0) - (modalityContextScores[keyA] || 0);
+      if (contextDelta !== 0) {
+        return contextDelta;
+      }
+
+      return keyA.localeCompare(keyB);
+    })[0][0];
   const learningKey = Object.entries(learningScores).sort(([, a], [, b]) => b - a)[0][0];
   const motivatorKey = Object.entries(motivationScores).sort(([, a], [, b]) => b - a)[0][0];
   const topSignals = Object.entries(signalScores)
@@ -822,29 +970,6 @@ const buildStepView = () => {
   `;
 };
 
-const buildIntroView = () => `
-  <section class="quiz-card quiz-card--intro">
-    <div class="quiz-card__body">
-      <span class="quiz-card__eyebrow">Test vocacional DASC</span>
-      <div>
-        <h2>Descubre tu mejor opcion.</h2>
-        <p class="quiz-card__copy">
-          Responde y obtiene una recomendacion clara segun tu perfil y tu contexto.
-        </p>
-      </div>
-      <ul class="result-tags">
-        <li>Carrera ideal</li>
-        <li>Modalidad recomendada</li>
-        <li>Senales de riesgo academico</li>
-      </ul>
-    </div>
-    <div class="quiz-card__footer">
-      <p class="question-note">Duracion estimada: 4 minutos.</p>
-      <button class="button button--primary" type="button" data-launch-quiz>Empezar test</button>
-    </div>
-  </section>
-`;
-
 const buildAnalysisView = () => `
   <section class="quiz-card quiz-card--analysis">
     <div class="quiz-card__body">
@@ -857,7 +982,7 @@ const buildAnalysisView = () => `
         </div>
       </div>
       <p class="quiz-card__copy">
-        Estamos preparando tu resultado.
+        Estamos preparando tu resultado final.
       </p>
     </div>
   </section>
@@ -875,7 +1000,7 @@ const buildCaptureView = () => {
         <div>
           <h2>Dejanos tus datos para ver tu resultado.</h2>
           <p class="quiz-card__copy">
-            Tambien podras solicitar informacion de la opcion recomendada.
+            Tambien podras solicitar mas informacion de la opcion recomendada.
           </p>
         </div>
         <div class="capture-grid">
@@ -897,7 +1022,10 @@ const buildCaptureView = () => {
             </div>
             <label class="checkbox" data-field="privacy">
               <input id="lead-privacy" name="privacy" type="checkbox" />
-              <span>Acepto aviso de privacidad</span>
+              <span>
+                Acepto el
+                <a href="${PRIVACY_NOTICE_URL}" target="_blank" rel="noreferrer">aviso de privacidad</a>
+              </span>
             </label>
             <span class="field-error" data-error-for="privacy"></span>
             <div class="quiz-card__footer">
@@ -1001,7 +1129,6 @@ const buildResultView = () => {
             </ul>
             <div class="result-actions">
               <a class="button button--primary" href="${getWhatsAppLink(whatsappMessage)}" target="_blank" rel="noreferrer">Solicitar informacion por WhatsApp</a>
-              <button class="button button--secondary" type="button" data-view-career="${topCareer.careerKey}">Ver esta carrera</button>
               <button class="button button--text" type="button" data-restart-quiz">Hacer de nuevo el test</button>
             </div>
           </div>
@@ -1032,10 +1159,6 @@ const buildResultView = () => {
 
 const render = () => {
   if (!quizStage) return;
-  if (state.screen === "intro") {
-    quizStage.innerHTML = buildIntroView();
-    return;
-  }
   if (state.screen === "step") {
     quizStage.innerHTML = buildStepView();
     return;
@@ -1082,8 +1205,11 @@ const validateLead = (formData) => {
   const whatsapp = formData.get("whatsapp").trim();
   const email = formData.get("email").trim();
   const privacy = formData.get("privacy") === "on";
+  const whatsappDigits = whatsapp.replace(/\D/g, "");
   if (name.length < 3) errors.name = "Escribe tu nombre completo para continuar.";
-  if (!/^[\d\s()+-]{10,}$/.test(whatsapp)) errors.whatsapp = "Ingresa un WhatsApp valido.";
+  if (whatsappDigits.length < 10 || whatsappDigits.length > 15) {
+    errors.whatsapp = "Ingresa un WhatsApp valido.";
+  }
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.email = "Revisa el formato del correo.";
   if (!privacy) errors.privacy = "Necesitas aceptar el aviso de privacidad.";
   return errors;
@@ -1102,6 +1228,7 @@ document.addEventListener("click", (event) => {
   if (launch) {
     clearAnalysis();
     resetHighlights();
+    hideSplashScreen();
     state.screen = "step";
     state.currentStep = 0;
     state.responses = {};
@@ -1153,7 +1280,7 @@ document.addEventListener("click", (event) => {
   if (restart) {
     clearAnalysis();
     resetHighlights();
-    state.screen = "intro";
+    state.screen = "step";
     state.currentStep = 0;
     state.responses = {};
     state.results = null;
@@ -1167,7 +1294,7 @@ document.addEventListener("click", (event) => {
   }
 });
 
-document.addEventListener("submit", (event) => {
+document.addEventListener("submit", async (event) => {
   const form = event.target.closest("[data-lead-form]");
   if (!form) return;
 
@@ -1194,6 +1321,12 @@ document.addEventListener("submit", (event) => {
       })
     );
   } catch {}
+
+  try {
+    await sendLeadToWebhook(getLeadPayload());
+  } catch (error) {
+    console.error(error);
+  }
 
   state.screen = "result";
   render();
