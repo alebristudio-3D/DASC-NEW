@@ -1207,7 +1207,7 @@ const validateLead = (formData) => {
   const privacy = formData.get("privacy") === "on";
   const whatsappDigits = whatsapp.replace(/\D/g, "");
   if (name.length < 3) errors.name = "Escribe tu nombre completo para continuar.";
-  if (whatsappDigits.length < 10 || whatsappDigits.length > 15) {
+  if (whatsappDigits.length < 8 || whatsappDigits.length > 15) {
     errors.whatsapp = "Ingresa un WhatsApp valido.";
   }
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.email = "Revisa el formato del correo.";
